@@ -136,6 +136,14 @@ td.num { font-variant-numeric: tabular-nums; }
 .lines i.pend { background: repeating-linear-gradient(90deg, var(--border) 0 3px, transparent 3px 7px); }
 .dv .dd { font-size: 12px; color: var(--text-2); }
 .divnote { font-size: 11.5px; color: var(--text-3); margin-top: 2px; }
+.ceo { font-size: 13px; margin-top: 8px; padding: 8px 10px; border-radius: 8px; background: var(--neutral-bg); color: var(--text); }
+.ceo b { font-weight: 600; }
+.catlist { list-style: none; margin: 6px 0 0; padding: 0; font-size: 12.5px; color: var(--text-2); }
+.catlist li { display: grid; grid-template-columns: 18px 1fr; gap: 6px; padding: 4px 0; border-top: 1px solid var(--border); }
+.catlist .mk { font-weight: 700; text-align: center; }
+.catlist .mk.o1 { color: var(--opp); } .catlist .mk.r1 { color: var(--res); } .catlist .mk.u { color: var(--text-3); }
+.catlist .cn { color: var(--text); font-weight: 600; }
+details.why { margin-top: 10px; } details.why summary { cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text); }
 /* Dual engine meters */
 .meter-row { display: grid; grid-template-columns: 96px 1fr 64px; align-items: center; gap: 10px; margin: 6px 0; }
 .meter-row .mlabel { font-size: 12.5px; color: var(--text-2); }
@@ -239,7 +247,8 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
     const r = (DATA.engine.ratings || []).find(x => x.ticker === ticker) || { o: null, r: null };
     const scored = r.o != null || r.r != null;
     const note = !scored ? 'Dual Decision Engine score pending.' : (r.complete ? 'Complete score' : 'Shadow subtotal, formally INCOMPLETE') + (r.as_of ? ' · ' + fmtDate(r.as_of) : '');
-    return `<div class="divs">${panel('o', r.o, r.o_unknown)}${panel('r', r.r, r.r_unknown)}</div><div class="divnote">${note} The two scores are independent.</div>`;
+    const ceo = r.action ? `<div class="ceo"><b>Recommended CEO action:</b> ${esc(r.action)}</div>` : '';
+    return `<div class="divs">${panel('o', r.o, r.o_unknown)}${panel('r', r.r, r.r_unknown)}</div><div class="divnote">${note} The two scores are independent.</div>${ceo}`;
   }
 
   function renderCases() {
@@ -314,6 +323,10 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
     return `<div class="meter ${kind}">${'<i class="pt"></i>'.repeat(pts)}${'<i class="unk"></i>'.repeat(u)}${'<i></i>'.repeat(zero)}</div>`;
   }
 
+  function cats(names, vals, k) {
+    return `<ul class="catlist">${names.map((n, i) => { const c = vals[i] || {}; const v = c.v; const mk = v == null ? '<span class="mk u" title="Unknown">?</span>' : v === 1 ? `<span class="mk ${k}1" title="Point">●</span>` : '<span class="mk" title="No point">○</span>'; return `<li>${mk}<span><span class="cn">${esc(n)}.</span> ${esc(c.e || '')}</span></li>`; }).join('')}</ul>`;
+  }
+
   function renderEngine() {
     const e = DATA.engine;
     const cards = e.ratings.map(r => {
@@ -322,7 +335,14 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
       return `<article class="card">
         <div class="card-head"><div class="tk">${esc(r.ticker)}</div>${scored ? `<span class="pill monitor">${r.complete ? 'COMPLETE' : 'INCOMPLETE'}</span>` : '<span class="pill pending">PENDING</span>'}</div>
         <div class="divs">${panel('o', r.o, r.o_unknown)}${panel('r', r.r, r.r_unknown)}</div>
-        <div class="sub" style="margin-top:8px">${esc(r.note)}${r.as_of ? ' · ' + fmtDate(r.as_of) : ''}</div>
+        <div class="sub" style="margin-top:8px">${esc(r.note)}${r.as_of ? ' · ' + fmtDate(r.as_of) : ''}${r.price_used ? ' · Price used: ' + esc(r.price_used) : ''}</div>
+        ${r.action ? `<div class="ceo"><b>Recommended CEO action:</b> ${esc(r.action)}</div>` : ''}
+        ${r.o_categories ? `<details class="why"><summary>Category evidence, catalysts and two-sided risk</summary>
+          <div class="label">Opportunity</div>${cats(e.opportunity_categories, r.o_categories, 'o')}
+          <div class="label">Resistance</div>${cats(e.resistance_categories, r.r_categories, 'r')}
+          ${r.catalyst ? `<div class="label">Catalyst check</div><div class="summary" style="margin-top:2px">${esc(r.catalyst)}</div>` : ''}
+          ${r.two_sided ? `<div class="label">Acting vs. waiting</div><div class="summary" style="margin-top:2px">${esc(r.two_sided)}</div>` : ''}
+        </details>` : ''}
       </article>`;
     }).join('');
     const rows = e.ratings.map(r => `<tr><td><b>${esc(r.ticker)}</b></td><td class="num">${r.o == null ? 'Pending' : r.o + (r.o_unknown ? ` (+${r.o_unknown} unknown)` : '')}</td><td class="num">${r.r == null ? 'Pending' : r.r + (r.r_unknown ? ` (+${r.r_unknown} unknown)` : '')}</td><td>${r.o == null ? 'Not scored' : (r.complete ? 'Complete' : 'Incomplete')}</td></tr>`).join('');
