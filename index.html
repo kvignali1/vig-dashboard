@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>VIG Dashboard</title>
+<script>
+try { var t = localStorage.getItem('vig-theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
 <style>
 :root {
   color-scheme: light;
@@ -16,8 +19,8 @@
   --text-2: #5f5f5f;
   --text-3: #8a8a8a;
   --accent: #1f2a44;
-  --opp: #12a150;
-  --res: #e0393e;
+  --opp: #0e8a43;
+  --res: #d0262c;
   --good: #1e7b34;
   --good-bg: #e5f3e8;
   --warn: #8a5a00;
@@ -117,6 +120,12 @@ td.num { font-variant-numeric: tabular-nums; }
 .quote { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 8px 10px; min-height: 92px; min-width: 0; overflow: hidden; }
 .quote .qh { font-size: 12px; color: var(--text-3); display: flex; justify-content: space-between; }
 .note { font-size: 12.5px; color: var(--text-2); margin: 8px 0 16px; }
+.hright { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.theme { display: inline-flex; background: var(--surface-2); border: 1px solid var(--border); border-radius: 999px; padding: 2px; }
+.theme button { font: inherit; font-size: 12.5px; color: var(--text-2); background: transparent; border: 0; border-radius: 999px; padding: 4px 10px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+.theme button svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.theme button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+.theme button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 /* Division panels (Investment / Adversarial) */
 .divs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0 4px; }
 .dv { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 12px; min-width: 0; }
@@ -183,7 +192,14 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
 <div class="wrap">
   <header>
     <h1>VIG <small>Vignali Intelligence Group</small></h1>
-    <div class="asof" id="asof"></div>
+    <div class="hright">
+      <div class="asof" id="asof"></div>
+      <div class="theme" role="group" aria-label="Color theme">
+        <button type="button" data-set="system" title="Match system setting">Auto</button>
+        <button type="button" data-set="light" title="Light mode"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Light</button>
+        <button type="button" data-set="dark" title="Dark mode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>Dark</button>
+      </div>
+    </div>
   </header>
   <div class="disclaimer" id="disclaimer">Advisory research only.</div>
 
@@ -413,6 +429,19 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
     tip.style.left = x + 'px';
     tip.style.top = (e.clientY + 14) + 'px';
   });
+
+  // Theme toggle: Auto follows the system; Light/Dark are remembered.
+  function currentPref() { try { return localStorage.getItem('vig-theme') || 'system'; } catch (e) { return 'system'; } }
+  function applyTheme(pref) {
+    if (pref === 'light' || pref === 'dark') document.documentElement.dataset.theme = pref;
+    else delete document.documentElement.dataset.theme;
+    try { if (pref === 'system') localStorage.removeItem('vig-theme'); else localStorage.setItem('vig-theme', pref); } catch (e) {}
+    document.querySelectorAll('.theme button').forEach(b => b.setAttribute('aria-pressed', b.dataset.set === pref ? 'true' : 'false'));
+    if (sections.prices) { document.querySelectorAll('#quotes .tv').forEach(el => el.innerHTML = ''); loadQuotes(); }
+  }
+  document.querySelectorAll('.theme button').forEach(b => b.addEventListener('click', () => applyTheme(b.dataset.set)));
+  document.querySelectorAll('.theme button').forEach(b => b.setAttribute('aria-pressed', b.dataset.set === currentPref() ? 'true' : 'false'));
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (currentPref() === 'system' && sections.prices) applyTheme('system'); });
 
   window.addEventListener('hashchange', () => show(location.hash.slice(1)));
 
