@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>VIG Dashboard</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f6f5f2;
+  --surface: #ffffff;
+  --surface-2: #f0efeb;
+  --border: #e2e0da;
+  --text: #191919;
+  --text-2: #5f5f5f;
+  --text-3: #8a8a8a;
+  --accent: #1f2a44;
+  --opp: #257de0;
+  --res: #f47230;
+  --good: #1e7b34;
+  --good-bg: #e5f3e8;
+  --warn: #8a5a00;
+  --warn-bg: #fdf1d8;
+  --info: #2c5ea8;
+  --info-bg: #e6eefa;
+  --neutral-bg: #eeeeea;
+  --hatch: #b9b7b0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #121212;
+    --surface: #1b1b1b;
+    --surface-2: #232323;
+    --border: #333333;
+    --text: #efefef;
+    --text-2: #a8a8a8;
+    --text-3: #7d7d7d;
+    --accent: #c9d4ee;
+    --opp: #338ced;
+    --res: #e76624;
+    --good: #6cc883;
+    --good-bg: #1b2e20;
+    --warn: #e7b44c;
+    --warn-bg: #33290f;
+    --info: #8db3ee;
+    --info-bg: #1a2638;
+    --neutral-bg: #2a2a2a;
+    --hatch: #555555;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #121212; --surface: #1b1b1b; --surface-2: #232323; --border: #333333;
+  --text: #efefef; --text-2: #a8a8a8; --text-3: #7d7d7d; --accent: #c9d4ee;
+  --opp: #338ced; --res: #e76624; --good: #6cc883; --good-bg: #1b2e20;
+  --warn: #e7b44c; --warn-bg: #33290f; --info: #8db3ee; --info-bg: #1a2638;
+  --neutral-bg: #2a2a2a; --hatch: #555555;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, sans-serif;
+}
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px 48px; }
+header { padding: 28px 0 8px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 16px; justify-content: space-between; }
+h1 { font-size: 22px; margin: 0; letter-spacing: -0.01em; }
+h1 small { font-weight: 500; color: var(--text-2); font-size: 14px; margin-left: 6px; }
+.asof { color: var(--text-2); font-size: 13px; }
+.disclaimer { font-size: 13px; color: var(--text-2); background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; margin: 8px 0 16px; }
+nav { display: flex; gap: 4px; overflow-x: auto; border-bottom: 1px solid var(--border); margin-bottom: 20px; scrollbar-width: none; }
+nav a { flex: none; padding: 10px 14px; color: var(--text-2); text-decoration: none; font-weight: 500; border-bottom: 2px solid transparent; margin-bottom: -1px; white-space: nowrap; }
+nav a[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); }
+nav a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+section[hidden] { display: none; }
+h2 { font-size: 17px; margin: 0 0 4px; }
+.lede { color: var(--text-2); margin: 0 0 16px; font-size: 14px; }
+.grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; min-width: 0; }
+.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
+.card-head > .pill { flex: 0 1 auto; text-align: right; }
+.card-head > div { flex: 1 1 auto; min-width: 0; }
+.tk { font-weight: 700; font-size: 18px; letter-spacing: 0.01em; }
+.nm { color: var(--text-2); font-size: 13px; }
+.meta { color: var(--text-3); font-size: 12px; margin: 2px 0 10px; }
+.pill { display: inline-block; font-size: 11.5px; font-weight: 650; letter-spacing: 0.02em; padding: 3px 8px; border-radius: 999px; max-width: 100%; background: var(--neutral-bg); color: var(--text-2); }
+.pill.hold { background: var(--good-bg); color: var(--good); }
+.pill.monitor { background: var(--warn-bg); color: var(--warn); }
+.pill.watch { background: var(--info-bg); color: var(--info); }
+.pill.pending { background: var(--neutral-bg); color: var(--text-2); border: 1px dashed var(--hatch); }
+.detail { font-size: 13.5px; margin: 8px 0; }
+.summary { font-size: 13.5px; color: var(--text-2); margin: 8px 0; }
+ul.watch { margin: 6px 0 0; padding-left: 18px; font-size: 13px; color: var(--text-2); }
+.label { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin-top: 12px; }
+.chain { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.chain span { font-size: 11.5px; padding: 3px 7px; border-radius: 6px; border: 1px solid var(--border); color: var(--text-2); }
+.chain span.met { background: var(--good-bg); color: var(--good); border-color: transparent; }
+.chain span.partial { background: var(--warn-bg); color: var(--warn); border-color: transparent; }
+.chain span::before { margin-right: 4px; }
+.chain span.met::before { content: "✓"; }
+.chain span.partial::before { content: "◐"; }
+.chain span.open::before { content: "?"; }
+.levels { font-size: 13px; background: var(--surface-2); border-radius: 8px; padding: 8px 10px; margin-top: 8px; }
+.bb { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px; font-size: 13px; }
+.bb div { background: var(--surface-2); border-radius: 8px; padding: 8px 10px; }
+.bb b { display: block; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); font-weight: 600; }
+table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { font-size: 12px; color: var(--text-3); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+td.num { font-variant-numeric: tabular-nums; }
+.tablewrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+.muted { color: var(--text-3); }
+.quotes { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); margin-bottom: 20px; }
+.quote { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 8px 10px; min-height: 92px; min-width: 0; overflow: hidden; }
+.quote .qh { font-size: 12px; color: var(--text-3); display: flex; justify-content: space-between; }
+.note { font-size: 12.5px; color: var(--text-2); margin: 8px 0 16px; }
+/* Dual engine meters */
+.meter-row { display: grid; grid-template-columns: 96px 1fr 64px; align-items: center; gap: 10px; margin: 6px 0; }
+.meter-row .mlabel { font-size: 12.5px; color: var(--text-2); }
+.meter { display: grid; grid-template-columns: repeat(6, 1fr); gap: 2px; height: 14px; }
+.meter i { display: block; border-radius: 3px; background: var(--neutral-bg); }
+.meter.o i.pt { background: var(--opp); }
+.meter.r i.pt { background: var(--res); }
+.meter i.unk { background: repeating-linear-gradient(45deg, var(--hatch) 0 2px, transparent 2px 5px); }
+.meter i.pend { background: transparent; border: 1px dashed var(--hatch); }
+.mval { font-size: 13px; font-variant-numeric: tabular-nums; text-align: right; color: var(--text); }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px; color: var(--text-2); margin: 4px 0 14px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 14px; height: 10px; border-radius: 2px; display: inline-block; }
+.rules { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--text-2); }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.cats { font-size: 13px; color: var(--text-2); margin: 4px 0 0; padding-left: 18px; }
+.gate { display: flex; gap: 10px; align-items: flex-start; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; }
+.gate:last-child { border-bottom: 0; }
+.gate .n { flex: none; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; background: var(--neutral-bg); color: var(--text-2); }
+.gate .n.in_progress { background: var(--warn-bg); color: var(--warn); }
+.gate .n.met { background: var(--good-bg); color: var(--good); }
+.prio { font-weight: 700; font-size: 12px; color: var(--text-2); margin-right: 6px; }
+.stack > * + * { margin-top: 14px; }
+.sub { font-size: 12px; color: var(--text-3); }
+#tip { position: fixed; pointer-events: none; z-index: 10; background: var(--text); color: var(--bg); font-size: 12px; padding: 6px 8px; border-radius: 6px; max-width: 260px; opacity: 0; transition: opacity .1s; }
+footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
+.error { padding: 16px; border-radius: 12px; background: var(--warn-bg); color: var(--warn); }
+@media (max-width: 640px) {
+  .grid { grid-template-columns: 1fr; }
+  .two, .bb { grid-template-columns: 1fr; }
+  .meter-row { grid-template-columns: 82px 1fr 56px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>VIG <small>Vignali Intelligence Group</small></h1>
+    <div class="asof" id="asof"></div>
+  </header>
+  <div class="disclaimer" id="disclaimer">Advisory research only.</div>
+
+  <nav role="tablist" aria-label="Dashboard sections">
+    <a href="#cases" role="tab" data-tab="cases">Case trackers</a>
+    <a href="#opportunities" role="tab" data-tab="opportunities">New opportunities</a>
+    <a href="#prices" role="tab" data-tab="prices">Stock prices</a>
+    <a href="#engine" role="tab" data-tab="engine">Dual Decision Engine</a>
+    <a href="#demitri" role="tab" data-tab="demitri">Demitri</a>
+  </nav>
+
+  <main id="app"><p class="muted">Loading…</p></main>
+
+  <footer>
+    Data: <code>data/vig.json</code>. Missing values are shown as pending, never estimated.
+  </footer>
+</div>
+<div id="tip" role="tooltip"></div>
+
+<script>
+(function () {
+  const app = document.getElementById('app');
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fmtDate = (d) => {
+    if (!d) return '';
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(d);
+    if (!m) return esc(d);
+    const dt = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3]));
+    return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+  };
+  const pillClass = (s) => {
+    const u = (s || '').toUpperCase();
+    if (u.startsWith('HOLD')) return 'hold';
+    if (u.includes('MONITOR') || u.includes('AWAITING')) return 'monitor';
+    if (u.includes('WATCH') || u.includes('PROMOTED')) return 'watch';
+    return 'pending';
+  };
+  const pill = (s) => `<span class="pill ${pillClass(s)}">${esc(s || 'PENDING')}</span>`;
+
+  let DATA = null;
+  const rendered = {};
+  const sections = {};
+
+  function renderCases() {
+    const cards = DATA.cases.map(c => `
+      <article class="card">
+        <div class="card-head">
+          <div><div class="tk">${esc(c.ticker)}</div><div class="nm">${esc(c.name)}${c.id ? ' · Case #' + esc(c.id) : ''}</div></div>
+          ${pill(c.suggestion)}
+        </div>
+        <div class="meta">${esc(c.horizon)} · Last review ${fmtDate(c.last_review) || 'pending'}${c.next_review ? ' · Next ' + fmtDate(c.next_review) : ''}</div>
+        <div class="detail">${esc(c.suggestion_detail)}</div>
+        <div class="summary">${esc(c.summary)}</div>
+        ${c.validation_chain ? `<div class="label">Validation chain</div><div class="chain">${c.validation_chain.map(s => `<span class="${esc(s.state)}" ${s.note ? `data-tip="${esc(s.note)}"` : ''}>${esc(s.stage)}</span>`).join('')}</div>` : ''}
+        <div class="label">Thesis</div><div class="summary" style="margin-top:2px">${esc(c.thesis_direction)}</div>
+        <div class="label">Watching</div>
+        <ul class="watch">${c.watch.map(w => `<li>${esc(w)}</li>`).join('')}</ul>
+      </article>`).join('');
+    return `<h2>Case trackers</h2><p class="lede">Current suggestion for each tracked case. Suggestions only; nothing here is an order or a record of any holding.</p><div class="grid">${cards}</div>`;
+  }
+
+  function renderOpps() {
+    const cards = DATA.opportunities.map(o => `
+      <article class="card">
+        <div class="card-head">
+          <div><div class="tk">${esc(o.ticker)}</div><div class="nm">${esc(o.name)}${o.exchange ? ' · ' + esc(o.exchange) : ''}</div></div>
+          ${pill(o.status)}
+        </div>
+        <div class="meta">${esc(o.record)} · ${esc(o.lane)} · First seen ${fmtDate(o.first_seen)}${o.next ? ' · Follow-up ' + fmtDate(o.next) : ''}</div>
+        <div class="detail"><b>Proposed:</b> ${esc(o.proposed)}</div>
+        ${o.thesis ? `<div class="summary">${esc(o.thesis)}</div>` : ''}
+        ${o.bull || o.bear ? `<div class="bb"><div><b>Bull</b>${esc(o.bull)}</div><div><b>Bear</b>${esc(o.bear)}</div></div>` : ''}
+        ${o.levels ? `<div class="levels">${esc(o.levels)}</div>` : ''}
+      </article>`).join('');
+    return `<h2>New opportunities</h2><p class="lede">Candidates from the daily Opportunity Discovery Ledger. Discovery is research, not an entry signal; the CEO decides every promotion.</p><div class="grid">${cards}</div>`;
+  }
+
+  function renderPrices() {
+    const p = DATA.prices;
+    const order = Object.keys(p.symbols);
+    const quotes = order.map(t => `<div class="quote"><div class="qh"><span>${esc(t)}</span><a href="https://www.tradingview.com/symbols/${esc(p.symbols[t].replace(':','-'))}/" target="_blank" rel="noopener" style="color:inherit">open quote ↗</a></div><div class="tv" data-symbol="${esc(p.symbols[t])}"></div></div>`).join('');
+    const rows = p.snapshot.map(s => `<tr><td><b>${esc(s.ticker)}</b></td><td class="num">${s.price == null ? '<span class="pill pending">PENDING</span>' : '$' + s.price.toFixed(2)}</td><td>${esc(s.as_of || '—')}</td><td class="muted">${esc(s.source || 'No recorded quote')}</td></tr>`).join('');
+    return `<h2>Stock prices</h2><p class="lede">Live delayed quotes load in your browser from TradingView. Below them are the dated prices VIG recorded in its research, which are history, not current.</p>
+      <div class="quotes" id="quotes">${quotes}</div>
+      <div class="label" style="margin-bottom:6px">Research snapshot</div>
+      <div class="tablewrap"><table><thead><tr><th>Ticker</th><th>Price</th><th>As of</th><th>Source</th></tr></thead><tbody>${rows}</tbody></table></div>
+      <p class="note">${esc(p.note)}</p>`;
+  }
+
+  function loadQuotes() {
+    const dark = document.documentElement.dataset.theme === 'dark' || (document.documentElement.dataset.theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+    document.querySelectorAll('#quotes .tv').forEach(el => {
+      const c = document.createElement('div');
+      c.className = 'tradingview-widget-container';
+      const w = document.createElement('div');
+      w.className = 'tradingview-widget-container__widget';
+      c.appendChild(w);
+      const s = document.createElement('script');
+      s.src = 'https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js';
+      s.async = true;
+      s.textContent = JSON.stringify({ symbol: el.dataset.symbol, width: '100%', isTransparent: true, colorTheme: dark ? 'dark' : 'light', locale: 'en' });
+      c.appendChild(s);
+      el.appendChild(c);
+    });
+  }
+
+  function meter(kind, pts, unk) {
+    if (pts == null) return `<div class="meter ${kind}">${'<i class="pend"></i>'.repeat(6)}</div>`;
+    const u = unk || 0;
+    const zero = Math.max(0, 6 - pts - u);
+    return `<div class="meter ${kind}">${'<i class="pt"></i>'.repeat(pts)}${'<i class="unk"></i>'.repeat(u)}${'<i></i>'.repeat(zero)}</div>`;
+  }
+
+  function renderEngine() {
+    const e = DATA.engine;
+    const cards = e.ratings.map(r => {
+      const scored = r.o != null;
+      const tip = (k, v, u) => v == null ? `${k}: pending` : `${k}: ${v} of 6 points${u ? `, ${u} unknown` : ''}${r.complete ? '' : ' (INCOMPLETE)'}`;
+      return `<article class="card">
+        <div class="card-head"><div class="tk">${esc(r.ticker)}</div>${scored ? `<span class="pill monitor">${r.complete ? 'COMPLETE' : 'INCOMPLETE'}</span>` : '<span class="pill pending">PENDING</span>'}</div>
+        <div class="meter-row" data-tip="${esc(tip('Opportunity', r.o, r.o_unknown))}"><span class="mlabel">Opportunity</span>${meter('o', r.o, r.o_unknown)}<span class="mval">${r.o == null ? '—' : 'O ' + r.o}</span></div>
+        <div class="meter-row" data-tip="${esc(tip('Resistance', r.r, r.r_unknown))}"><span class="mlabel">Resistance</span>${meter('r', r.r, r.r_unknown)}<span class="mval">${r.r == null ? '—' : 'R ' + r.r}</span></div>
+        <div class="sub" style="margin-top:8px">${esc(r.note)}${r.as_of ? ' · ' + fmtDate(r.as_of) : ''}</div>
+      </article>`;
+    }).join('');
+    const rows = e.ratings.map(r => `<tr><td><b>${esc(r.ticker)}</b></td><td class="num">${r.o == null ? 'Pending' : r.o + (r.o_unknown ? ` (+${r.o_unknown} unknown)` : '')}</td><td class="num">${r.r == null ? 'Pending' : r.r + (r.r_unknown ? ` (+${r.r_unknown} unknown)` : '')}</td><td>${r.o == null ? 'Not scored' : (r.complete ? 'Complete' : 'Incomplete')}</td></tr>`).join('');
+    return `<h2>Dual Decision Engine</h2><p class="lede">${esc(e.status)}</p>
+      <div class="legend">
+        <span><i style="background:var(--opp)"></i>Opportunity point</span>
+        <span><i style="background:var(--res)"></i>Resistance point</span>
+        <span><i style="background:repeating-linear-gradient(45deg,var(--hatch) 0 2px,transparent 2px 5px)"></i>Unknown (not zero)</span>
+        <span><i style="background:var(--neutral-bg)"></i>Assessed, no point</span>
+        <span><i style="border:1px dashed var(--hatch)"></i>Pending</span>
+      </div>
+      <div class="grid">${cards}</div>
+      <div class="label" style="margin:20px 0 6px">Table view</div>
+      <div class="tablewrap"><table><thead><tr><th>Case</th><th>Opportunity (0–6)</th><th>Resistance (0–6)</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div>
+      <div class="two" style="margin-top:20px">
+        <div class="card"><h2>How it works</h2><ul class="rules">${e.rules.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>
+        <div class="card"><div class="two">
+          <div><b style="font-size:13px">Opportunity, one point each</b><ol class="cats">${e.opportunity_categories.map(x => `<li>${esc(x)}</li>`).join('')}</ol></div>
+          <div><b style="font-size:13px">Resistance, one point each</b><ol class="cats">${e.resistance_categories.map(x => `<li>${esc(x)}</li>`).join('')}</ol></div>
+        </div></div>
+      </div>`;
+  }
+
+  function renderDemitri() {
+    const d = DATA.demitri;
+    const tracked = d.tracked.map(t => `<tr><td><span class="prio">${esc(t.priority)}</span></td><td><b>${esc(t.title)}</b><div class="sub">${esc(t.detail)}</div></td><td>${pill(t.status)}</td><td class="muted">${esc(t.source)}</td></tr>`).join('');
+    const proposed = d.proposed.map(t => `<article class="card"><div class="card-head"><b>${esc(t.title)}</b></div><div class="meta">${pill(t.status)} · ${fmtDate(t.date)}</div><div class="summary">${esc(t.detail)}</div></article>`).join('');
+    const gates = d.gates.map(g => `<div class="gate"><span class="n ${esc(g.state)}">${g.n}</span><span>${esc(g.text)}<div class="sub">${g.state === 'met' ? 'Met' : g.state === 'in_progress' ? 'In progress' : 'Open'}</div></span></div>`).join('');
+    return `<h2>Demitri · Improvement</h2><p class="lede">${esc(d.summary)}</p>
+      <div class="stack">
+        <div><div class="label" style="margin-bottom:6px">Tracked improvements</div>
+          <div class="tablewrap"><table><thead><tr><th>Priority</th><th>Improvement</th><th>Status</th><th>Source</th></tr></thead><tbody>${tracked}</tbody></table></div></div>
+        <div><div class="label" style="margin-bottom:6px">Proposed improvements</div><div class="grid">${proposed}</div></div>
+        <div class="two">
+          <div class="card"><h2>Gates before production scoring</h2>${gates}</div>
+          <div class="card"><h2>Deferred</h2><ul class="watch">${d.deferred.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+            <h2 style="margin-top:14px">Rejected</h2><ul class="watch">${d.rejected.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>
+        </div>
+      </div>`;
+  }
+
+  const renderers = { cases: renderCases, opportunities: renderOpps, prices: renderPrices, engine: renderEngine, demitri: renderDemitri };
+
+  function show(tab) {
+    if (!renderers[tab]) tab = 'cases';
+    document.querySelectorAll('nav a').forEach(a => a.setAttribute('aria-selected', a.dataset.tab === tab ? 'true' : 'false'));
+    if (!DATA) return;
+    if (!sections[tab]) {
+      const s = document.createElement('section');
+      s.innerHTML = renderers[tab]();
+      app.appendChild(s);
+      sections[tab] = s;
+      if (tab === 'prices') loadQuotes();
+    }
+    Object.entries(sections).forEach(([k, s]) => s.hidden = k !== tab);
+  }
+
+  // Tooltip
+  const tip = document.getElementById('tip');
+  document.addEventListener('pointerover', e => {
+    const t = e.target.closest('[data-tip]');
+    if (!t) { tip.style.opacity = 0; return; }
+    tip.textContent = t.dataset.tip;
+    tip.style.opacity = 1;
+  });
+  document.addEventListener('pointermove', e => {
+    const x = Math.min(e.clientX + 12, innerWidth - tip.offsetWidth - 8);
+    tip.style.left = x + 'px';
+    tip.style.top = (e.clientY + 14) + 'px';
+  });
+
+  window.addEventListener('hashchange', () => show(location.hash.slice(1)));
+
+  fetch('data/vig.json', { cache: 'no-cache' })
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(d => {
+      DATA = d;
+      app.innerHTML = '';
+      document.getElementById('asof').textContent = 'Data as of ' + fmtDate(d.meta.as_of);
+      document.getElementById('disclaimer').textContent = d.meta.disclaimer;
+      show(location.hash.slice(1) || 'cases');
+    })
+    .catch(err => {
+      app.innerHTML = `<div class="error">Could not load data/vig.json (${esc(err.message)}). If you opened this file directly from disk, serve the docs folder instead.</div>`;
+    });
+})();
+</script>
+</body>
+</html>

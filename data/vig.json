@@ -1,0 +1,284 @@
+{
+  "meta": {
+    "schema_version": 1,
+    "as_of": "2026-11-27",
+    "generated_by": "Manual first version, compiled from VIG Case State (Nov 25), Opportunity Discovery Ledger VIG-OD-001 (Nov 27), VIG-PGA-001/001A/001B (Nov 23), 11-1 Monthly Improvement Report and the Obsidian vault.",
+    "disclaimer": "Advisory research only. Nothing here is a recommendation to buy or sell, an order, or a record of any holding. The CEO alone makes and executes every decision.",
+    "public_safe": "This file is published on a public page. It must never contain account names, holdings, position sizes, capital amounts or balances."
+  },
+
+  "cases": [
+    {
+      "id": "001",
+      "ticker": "AMZN",
+      "exchange": "NASDAQ",
+      "name": "Amazon",
+      "kind": "case",
+      "horizon": "Long-term",
+      "suggestion": "HOLD",
+      "suggestion_detail": "Last full decision (Aug 1): HOLD / ACCUMULATE ON WEAKNESS. Add only on market weakness or valuation compression.",
+      "thesis_direction": "Intact, cash-conversion risk elevated",
+      "last_review": "2026-11-23",
+      "next_review": null,
+      "summary": "Q3: AWS revenue +39.3% to $46.0B and AWS operating income $17.8B, but trailing-12-month free cash flow fell to -$42.4B (from +$14.8B). Growth thesis intact; 2027 capex and cash conversion are the open risk.",
+      "watch": [
+        "Free-cash-flow recovery and return on invested capital",
+        "AI infrastructure utilization and 2027 capex guidance",
+        "Reported $5B data-center JV financing",
+        "Unconfirmed Decart talks"
+      ],
+      "validation_chain": null
+    },
+    {
+      "id": null,
+      "ticker": "NVDA",
+      "exchange": "NASDAQ",
+      "name": "NVIDIA",
+      "kind": "case",
+      "horizon": "Long-term",
+      "suggestion": "HOLD",
+      "suggestion_detail": "HOLD with material governance and succession risk under review.",
+      "thesis_direction": "Intact, governance review ongoing",
+      "last_review": "2026-11-23",
+      "next_review": null,
+      "summary": "CEO resigned Nov 11 and was reinstated Nov 22; governance review continues. Q3 FY27 revenue $115.8B.",
+      "watch": [
+        "Leadership and governance review outcome",
+        "Hyperscaler orders and Rubin conversion",
+        "Export controls"
+      ],
+      "validation_chain": null
+    },
+    {
+      "id": "002",
+      "ticker": "AGLT",
+      "exchange": "NASDAQ",
+      "name": "Agility Robotics",
+      "kind": "case",
+      "horizon": "Emerging technology",
+      "suggestion": "MONITOR / NO ENTRY",
+      "suggestion_detail": "More evidence required. Long-term technology thesis intact; near-term investability not qualified.",
+      "thesis_direction": "Strengthening, execution risk dominant",
+      "last_review": "2026-11-23",
+      "next_review": null,
+      "summary": "Listed on Nasdaq Nov 5 after the Churchill Capital XI merger. The Nov 13 8-K/A shows a $458.7M net loss and $131.6M operating cash use. Post-merger liquidity, runway and dilution still need verification; 180-day lockups apply.",
+      "watch": [
+        "Post-merger liquidity, runway and diluted share count",
+        "Digit 5 deployments and safety certification",
+        "Recognized revenue vs. conditional orders",
+        "GXO and other repeat-customer expansion"
+      ],
+      "validation_chain": [
+        { "stage": "Orders", "state": "met" },
+        { "stage": "Production", "state": "open" },
+        { "stage": "Deployment", "state": "open" },
+        { "stage": "Retention", "state": "partial", "note": "GXO signed expansion (Oct 26)" },
+        { "stage": "Revenue", "state": "open" },
+        { "stage": "Financial performance", "state": "open" }
+      ]
+    },
+    {
+      "id": null,
+      "ticker": "DLTR",
+      "exchange": "NASDAQ",
+      "name": "Dollar Tree",
+      "kind": "case",
+      "horizon": "Tactical, 2 weeks to 3 months",
+      "suggestion": "CONDITIONAL ENTRY WATCH",
+      "suggestion_detail": "Watch a pullback to $147.83–149.95 with support and buying confirmation, or a breakout above $156.99 on volume with a successful retest. A sustained break below $147.83 triggers reassessment ($139.10 gap-fill reference).",
+      "thesis_direction": "New case (Nov 25)",
+      "last_review": "2026-11-25",
+      "next_review": "2026-11-27",
+      "summary": "Q3 sales +6.9%, comps +4.6%, traffic +3.8%. FY guidance $8.05–8.25 includes a $0.65 temporary net tariff benefit; operating margin down 110bp.",
+      "watch": [
+        "Support at $147.83–149.95",
+        "Breakout above $156.99 with volume",
+        "Margin compression and tariff/freight pressure"
+      ],
+      "validation_chain": null
+    },
+    {
+      "id": null,
+      "ticker": "A",
+      "exchange": "NYSE",
+      "name": "Agilent Technologies",
+      "kind": "case",
+      "horizon": "Long-term, 3 to 5 years",
+      "suggestion": "CONDITIONAL ACCUMULATION WATCH",
+      "suggestion_detail": "Valuation review tiers $169.88 (25x), $156.29 (23x), $142.70 (21x). Verify normalized FCF, peer and historical multiples, balance sheet and durable growth before any entry.",
+      "thesis_direction": "New case (Nov 25)",
+      "last_review": "2026-11-25",
+      "next_review": "2026-12-02",
+      "summary": "FY26 revenue $7.55B (+8.7%), adjusted EPS $6.34 (+13%). FY27 guidance: revenue $8–8.15B, adjusted EPS $6.73–6.86. About 27x FY27 EPS midpoint, not demonstrably cheap.",
+      "watch": [
+        "Core growth rate (falsifier: sustained slowdown)",
+        "CrossLab service margins",
+        "Price vs. valuation tiers"
+      ],
+      "validation_chain": null
+    }
+  ],
+
+  "opportunities": [
+    {
+      "record": "VIG-OD-20261127-001",
+      "ticker": "CAH",
+      "exchange": "NYSE",
+      "name": "Cardinal Health",
+      "lane": "Long-term / tactical secondary",
+      "first_seen": "2026-11-27",
+      "status": "AWAITING CEO DECISION",
+      "proposed": "Approve as research case only, no entry",
+      "thesis": "Pharma and medical distribution with raised FY27 guidance (adjusted EPS $12.80–13.00, +17–19%) and $500M of buybacks. Scale and distribution reliability may form a moat.",
+      "bull": "Durable specialty distribution and cash conversion",
+      "bear": "Thin margins, customer losses, reimbursement pressure, multiple compression",
+      "levels": "Tactical breakout only above $286.29 after volume and retest confirmation; a break below $269.30 undermines the near-term setup. Illustrative 18–20x valuation review $232.20–258.00 (not fair value).",
+      "next": "2026-12-04"
+    },
+    {
+      "record": "VIG-OD-20261123-002",
+      "ticker": "WCC",
+      "exchange": "NYSE",
+      "name": "Wesco International",
+      "lane": "Long-term / tactical secondary",
+      "first_seen": "2026-11-23",
+      "status": "ENTRY WATCHLIST",
+      "proposed": "Watch only. Not an entry order",
+      "thesis": "Electrical, data-center, utility and broadband distributor. Q3 sales $7.2B (+17%), data center $1.8B (~+55%), backlog ~+80%, guidance raised.",
+      "bull": "Confirmed backlog, broadening demand, free cash flow",
+      "bear": "Cyclical spending, backlog conversion, working capital, rapid rebound",
+      "levels": "Verify valuation and 2027 guidance; wait for support and entry confirmation.",
+      "next": null
+    },
+    {
+      "record": "VIG-OD-20261123-003",
+      "ticker": "ORA",
+      "exchange": "NYSE",
+      "name": "Ormat Technologies",
+      "lane": "Long-term",
+      "first_seen": "2026-11-23",
+      "status": "ENTRY WATCHLIST",
+      "proposed": "Watch only. Not an entry order",
+      "thesis": "Geothermal generation and energy storage. Q3 revenue +10.2%, storage segment revenue +145.2%, FY26 guidance raised. The 5–6 GW EGS pipeline is potential, not contracted revenue.",
+      "bull": "Growing storage and geothermal optionality",
+      "bear": "Project delays, funding costs, expensive valuation (~40x trailing in one snapshot)",
+      "levels": "Watch financing, project schedule and price stabilization.",
+      "next": null
+    },
+    {
+      "record": "VIG-OD-20261123-001",
+      "ticker": "IESC",
+      "exchange": "NASDAQ",
+      "name": "IES Holdings",
+      "lane": "Tactical / long-term secondary",
+      "first_seen": "2026-11-23",
+      "status": "RESEARCH / TACTICAL WATCH",
+      "proposed": "Not promoted",
+      "thesis": "Electrical infrastructure contractor riding data-center power buildout. FY26 Q4 revenue $1.39B (+55%), operating income +108%, new $350M buyback.",
+      "bull": "Operating leverage, buyback, demand",
+      "bear": "Volatile price action, growth normalization, valuation uncertainty",
+      "levels": "Verify two-session support, volume and valuation before treating the rebound as a breakout.",
+      "next": null
+    },
+    {
+      "record": "VIG-OD-20261125-001 / -002",
+      "ticker": "DLTR, A",
+      "exchange": "",
+      "name": "Dollar Tree and Agilent",
+      "lane": "Tactical / long-term",
+      "first_seen": "2026-11-25",
+      "status": "PROMOTED TO CASE",
+      "proposed": "Promoted by the CEO on Nov 25. See Case trackers",
+      "thesis": "",
+      "bull": "",
+      "bear": "",
+      "levels": "",
+      "next": null
+    }
+  ],
+
+  "prices": {
+    "note": "Snapshot prices come from the dated quotes VIG recorded in its research. They are historical, not live. The live widgets on this page load delayed quotes from TradingView in your browser.",
+    "snapshot": [
+      { "ticker": "AMZN", "price": null, "as_of": null, "source": null },
+      { "ticker": "NVDA", "price": null, "as_of": null, "source": null },
+      { "ticker": "AGLT", "price": null, "as_of": null, "source": null },
+      { "ticker": "DLTR", "price": 154.65, "as_of": "2026-11-24 close", "source": "stockanalysis.com history" },
+      { "ticker": "A", "price": 183.52, "as_of": "2026-11-24 close", "source": "Agilent IR (delayed)" },
+      { "ticker": "CAH", "price": 282.91, "as_of": "2026-11-25 close", "source": "stockanalysis.com / Cardinal IR" },
+      { "ticker": "WCC", "price": 307.98, "as_of": "2026-11-23 11:28 ET intraday", "source": "Yahoo Finance" },
+      { "ticker": "ORA", "price": 86.28, "as_of": "2026-11-23 11:58 ET intraday", "source": "chartexchange.com" },
+      { "ticker": "IESC", "price": 173.21, "as_of": "2026-11-23 11:52 ET intraday", "source": "chartexchange.com" }
+    ],
+    "symbols": {
+      "AMZN": "NASDAQ:AMZN",
+      "NVDA": "NASDAQ:NVDA",
+      "AGLT": "NASDAQ:AGLT",
+      "DLTR": "NASDAQ:DLTR",
+      "A": "NYSE:A",
+      "CAH": "NYSE:CAH",
+      "WCC": "NYSE:WCC",
+      "ORA": "NYSE:ORA",
+      "IESC": "NASDAQ:IESC"
+    }
+  },
+
+  "engine": {
+    "status": "SHADOW PILOT (VIG-PGA-001B, proposed). Not production scoring.",
+    "rules": [
+      "Opportunity (O) and Resistance (R) are two independent 0–6 scores. They are not added, subtracted or treated as probabilities.",
+      "Each category is 1, 0 or UNKNOWN. UNKNOWN never counts as 0.",
+      "A score stays INCOMPLETE until all six categories are assessed.",
+      "High O with high R stays visible as \"high upside, high risk\", never collapsed into \"avoid\".",
+      "Scores are decision support, not vetoes."
+    ],
+    "opportunity_categories": ["Durable growth", "Addressable-market expansion", "Defensible position", "Valuation and reward", "Credible catalyst or momentum", "Favorable entry and liquidity"],
+    "resistance_categories": ["Balance sheet, cash burn or dilution", "Execution risk", "Overvaluation or downside asymmetry", "Volatility, liquidity or market structure", "Regulatory, governance or legal exposure", "Thesis uncertainty or data gaps"],
+    "ratings": [
+      { "ticker": "AMZN", "o": null, "o_unknown": null, "r": null, "r_unknown": null, "complete": false, "as_of": null, "note": "Not yet scored. Annex A inputs were never recorded (NOT COMPUTABLE)." },
+      { "ticker": "NVDA", "o": null, "o_unknown": null, "r": null, "r_unknown": null, "complete": false, "as_of": null, "note": "Not yet scored." },
+      { "ticker": "AGLT", "o": null, "o_unknown": null, "r": null, "r_unknown": null, "complete": false, "as_of": null, "note": "Not yet scored. Shadow replays (Oct 7, Oct 26) were qualitative." },
+      { "ticker": "DLTR", "o": 4, "o_unknown": 1, "r": 3, "r_unknown": 2, "complete": false, "as_of": "2026-11-25", "note": "Shadow subtotal. Formal score INCOMPLETE." },
+      { "ticker": "A", "o": 4, "o_unknown": 1, "r": 2, "r_unknown": 2, "complete": false, "as_of": "2026-11-25", "note": "Shadow subtotal. Formal score INCOMPLETE." },
+      { "ticker": "CAH", "o": null, "o_unknown": null, "r": null, "r_unknown": null, "complete": false, "as_of": "2026-11-27", "note": "Categories discussed qualitatively; no subtotal recorded." }
+    ]
+  },
+
+  "demitri": {
+    "summary": "Demitri (Chief Improvement Officer) is advisory. He recommends; the CEO authorizes. No architecture, scoring or role change is implemented without CEO approval.",
+    "gates": [
+      { "n": 1, "text": "Complete source timestamps and no hindsight leakage in every reviewed case", "state": "open" },
+      { "n": 2, "text": "Three or more independently reviewed historical cases plus negative controls", "state": "open" },
+      { "n": 3, "text": "Prospective shadow briefs, logging missed catalysts and noise", "state": "in_progress" },
+      { "n": 4, "text": "CEO ruling on exact constitutional text (Article 5 and page 93)", "state": "open" },
+      { "n": 5, "text": "CEO authorization for production deployment with a verified rollback plan", "state": "open" }
+    ],
+    "tracked": [
+      { "priority": "P0", "title": "Institutional memory completeness", "status": "REFINE", "source": "11-1 Monthly Improvement Report", "detail": "October audit found 15 of 24 expected records (62.5%); Oct 5 and Oct 19 cycles missing. Enforce write/read verification and mark missing stages INCOMPLETE. Target: 4 of 4 records every week." },
+      { "priority": "P0", "title": "Material event follow-through", "status": "REFINE", "source": "11-1 Monthly Improvement Report", "detail": "No disposition records followed the Oct 29 Amazon earnings or Oct 30 Agility financing update. Open dated event reviews when a listed trigger fires." },
+      { "priority": "P1", "title": "Analyst attribution and activation policy", "status": "TEST", "source": "11-1 Monthly Improvement Report", "detail": "Shadow-compare selective routing against a full-domain relevance checklist across three material cases. Each role marked ACTIVATED / CONSULTED / NOT APPLICABLE / STOOD DOWN." },
+      { "priority": "P1", "title": "Typed relationship and evidence maps", "status": "TEST", "source": "11-1 Monthly Improvement Report", "detail": "Test source-linked relationship records (direction, dependency, confidence, unknowns) on Agility. Keep the Orders → Production → Deployment → Retention → Revenue → Financial Performance gates separate." },
+      { "priority": "P2", "title": "Annex A recovery and performance measurement", "status": "TEST / DEFER", "source": "11-1 Monthly Improvement Report", "detail": "Recover authentic decision-time scorecards first; then log predictions and outcomes prospectively. No calibration claims until then." },
+      { "priority": "—", "title": "Dual-force shadow pilot", "status": "SHADOW PILOT APPROVED, PRODUCTION ON HOLD", "source": "VIG-PGA-001 (Nov 23)", "detail": "Append-only shadow briefs alongside unchanged production decisions. Production waits on the five gates." }
+    ],
+    "proposed": [
+      { "title": "VIG-PGA-001B Dual-Force Investment Decision System", "status": "PROPOSED", "date": "2026-11-23", "detail": "Independent Opportunity and Resistance scores (0–6 each) with risks of acting and of not acting shown side by side." },
+      { "title": "VIG-PGA-001A Catalyst Opportunity Detection", "status": "PROPOSED", "date": "2026-11-23", "detail": "Formal catalyst detection, currently run informally through Logan." },
+      { "title": "Hybrid analyst activation", "status": "AWAITING CEO (Gate A)", "date": "2026-11-01", "detail": "Targeted routine reviews; full-domain relevance check for material thesis changes or proposed trades. Time-limited shadow test only." },
+      { "title": "Numeric case IDs for NVDA, DLTR and A", "status": "AWAITING CEO", "date": "2026-11-27", "detail": "Currently ticker-based identifiers." },
+      { "title": "Single decision vocabulary", "status": "AWAITING CEO", "date": "2026-11-27", "detail": "Manual allows Buy / Sell / Hold / Watch / More Evidence Required; records use compound dispositions." },
+      { "title": "Drive ↔ vault sync rule", "status": "AWAITING CEO", "date": "2026-11-27", "detail": "The GitHub vault stopped at Nov 5; Drive is authoritative. A sync rule would keep this dashboard and the vault current." }
+    ],
+    "deferred": [
+      "Four-strategy desktop/workspace reorganization",
+      "Revised Annex A weights",
+      "Broader autonomous agent deployment and automatic trading",
+      "Performance rankings until outcomes exist"
+    ],
+    "rejected": [
+      "Rewriting original theses, old decisions or missing records",
+      "Treating conditional orders, planned listings or designed capacity as realized revenue",
+      "Claiming analysts ran independently when records only show combined headings"
+    ]
+  }
+}
