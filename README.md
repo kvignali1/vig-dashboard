@@ -22,3 +22,26 @@ Edit `data/vig.json` and push. Conventions:
 - `prices.snapshot` holds dated quotes from VIG research. Live quotes come from
   TradingView widgets via `prices.symbols`.
 - Bump `meta.as_of` on every update.
+
+## CEO decisions from the dashboard
+
+Each new opportunity has **Start tracking / Keep watching / Pass** buttons. A
+button opens a prefilled issue in the private vault repo
+(`meta.decisions.repo`, label `ceo-decision`). Nothing is written until the
+CEO presses "Create" on GitHub, and only people with vault access can do so.
+No token is stored in this public site.
+
+Each issue carries a machine-readable block:
+
+    ```vig-decision
+    decision: TRACK | WATCH | PASS
+    ticker: CAH
+    exchange: NYSE
+    record: VIG-OD-20261127-001
+    date: 2026-11-28
+    source: dashboard
+    ```
+
+A VIG run applying decisions should read open `ceo-decision` issues authored
+by `kvignali1` only, update the ledger, case state and `data/vig.json`, then
+comment and close the issue.

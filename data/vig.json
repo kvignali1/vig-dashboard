@@ -4,7 +4,12 @@
     "as_of": "2026-11-27",
     "generated_by": "Manual first version, compiled from VIG Case State (Nov 25), Opportunity Discovery Ledger VIG-OD-001 (Nov 27), VIG-PGA-001/001A/001B (Nov 23), 11-1 Monthly Improvement Report and the Obsidian vault. Nov 27 evening: shadow-pilot Dual Decision Engine re-score of all nine cases from public sources (issuer releases, SEC filings, dated quotes).",
     "disclaimer": "Advisory research only. Nothing here is a recommendation to buy or sell, an order, or a record of any holding. The CEO alone makes and executes every decision.",
-    "public_safe": "This file is published on a public page. It must never contain account names, holdings, position sizes, capital amounts or balances."
+    "public_safe": "This file is published on a public page. It must never contain account names, holdings, position sizes, capital amounts or balances.",
+    "decisions": {
+      "repo": "kvignali1/vig-obsidian-vault",
+      "label": "ceo-decision",
+      "note": "Decision buttons open a prefilled issue in the private vault. Only people with access to that repo can submit; scheduled runs should honor only issues opened by the CEO."
+    }
   },
   "cases": [
     {

@@ -126,6 +126,16 @@ td.num { font-variant-numeric: tabular-nums; }
 .theme button svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .theme button[aria-pressed="true"] { background: var(--surface); color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
 .theme button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.decide { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); }
+.dbtns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.dbtn { font-size: 13px; font-weight: 600; text-decoration: none; padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border); color: var(--text); background: var(--surface); }
+.dbtn:hover { background: var(--surface-2); }
+.dbtn.go { background: var(--opp); border-color: var(--opp); color: #fff; }
+.dbtn.go:hover { filter: brightness(1.08); background: var(--opp); }
+.dbtn.no { color: var(--res); }
+.dbtn.on { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.dsent { font-size: 12.5px; color: var(--text-2); margin-top: 8px; }
 /* Division panels (Investment / Adversarial) */
 .divs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0 4px; }
 .dv { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 12px; min-width: 0; }
@@ -286,6 +296,56 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
     return `<h2>Case trackers</h2><p class="lede">Current suggestion for each tracked case. Suggestions only; nothing here is an order or a record of any holding.</p><div class="grid">${cards}</div>`;
   }
 
+  const DECISIONS = [
+    { key: 'TRACK', label: 'Start tracking', cls: 'go', desc: 'Promote to a formal tracked research case. No trade or allocation.' },
+    { key: 'WATCH', label: 'Keep watching', cls: '', desc: 'Leave on the discovery watchlist; revisit at the next review.' },
+    { key: 'PASS', label: 'Pass', cls: 'no', desc: 'Reject for now and stop monitoring.' }
+  ];
+  function sentKey(o) { return 'vig-decision:' + o.record; }
+  function getSent(o) { try { return JSON.parse(localStorage.getItem(sentKey(o)) || 'null'); } catch (e) { return null; } }
+  function decisionUrl(o, dec) {
+    const cfg = DATA.meta.decisions || {};
+    const today = new Date().toISOString().slice(0, 10);
+    const title = `CEO decision: ${dec.key} ${o.ticker} (${o.record})`;
+    const body = [
+      '<!-- Recorded from the VIG dashboard. Edit the notes, then press "Create". -->',
+      '```vig-decision',
+      `decision: ${dec.key}`,
+      `ticker: ${o.ticker}`,
+      `exchange: ${o.exchange}`,
+      `record: ${o.record}`,
+      `date: ${today}`,
+      'source: dashboard',
+      '```',
+      '',
+      `**Decision:** ${dec.label}. ${dec.desc}`,
+      `**Status shown on dashboard:** ${o.status}`,
+      `**VIG proposal:** ${o.proposed}`,
+      '',
+      '**CEO notes (optional):**',
+      '',
+      '',
+      '---',
+      'Advisory research decision only. This does not authorize any trade, allocation or execution.'
+    ].join('\n');
+    const enc = encodeURIComponent;
+    return `https://github.com/${cfg.repo}/issues/new?title=${enc(title)}&labels=${enc(cfg.label || '')}&body=${enc(body)}`;
+  }
+  function decisionBlock(o) {
+    if (!o.thesis || !(DATA.meta.decisions && DATA.meta.decisions.repo)) return '';
+    const sent = getSent(o);
+    const btns = DECISIONS.map(dec => `<a class="dbtn ${dec.cls}${sent && sent.k === dec.key ? ' on' : ''}" href="${esc(decisionUrl(o, dec))}" target="_blank" rel="noopener" data-rec="${esc(o.record)}" data-k="${dec.key}" title="${esc(dec.desc)}">${esc(dec.label)}</a>`).join('');
+    const st = sent ? `<div class="dsent">You opened a <b>${esc(DECISIONS.find(x => x.key === sent.k).label.toLowerCase())}</b> decision on ${fmtDate(sent.d)}. It takes effect once the issue is submitted and the next VIG run applies it.</div>` : '';
+    return `<div class="decide"><div class="label" style="margin-top:0">Your decision</div><div class="dbtns">${btns}</div>${st}</div>`;
+  }
+  document.addEventListener('click', e => {
+    const a = e.target.closest('.dbtn'); if (!a) return;
+    try { localStorage.setItem('vig-decision:' + a.dataset.rec, JSON.stringify({ k: a.dataset.k, d: new Date().toISOString().slice(0, 10) })); } catch (err) {}
+    const o = DATA.opportunities.find(x => x.record === a.dataset.rec);
+    const block = a.closest('.decide');
+    if (o && block) setTimeout(() => { block.outerHTML = decisionBlock(o); }, 50);
+  });
+
   function renderOpps() {
     const cards = DATA.opportunities.map(o => `
       <article class="card">
@@ -299,8 +359,11 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
         ${o.thesis ? `<div class="summary">${esc(o.thesis)}</div>` : ''}
         ${o.bull || o.bear ? `<div class="bb"><div><b>Bull</b>${esc(o.bull)}</div><div><b>Bear</b>${esc(o.bear)}</div></div>` : ''}
         ${o.levels ? `<div class="levels">${esc(o.levels)}</div>` : ''}
+        ${decisionBlock(o)}
       </article>`).join('');
-    return `<h2>New opportunities</h2><p class="lede">Candidates from the daily Opportunity Discovery Ledger. Discovery is research, not an entry signal; the CEO decides every promotion.</p><div class="grid">${cards}</div>`;
+    return `<h2>New opportunities</h2><p class="lede">Candidates from the daily Opportunity Discovery Ledger. Discovery is research, not an entry signal; the CEO decides every promotion.</p>
+      <div class="note" style="margin-top:-6px">Decision buttons open a prefilled issue in the private VIG vault. Submit it there to record your decision; it only works when you're signed in to GitHub with access to the vault.</div>
+      <div class="grid">${cards}</div>`;
   }
 
   function renderPrices() {
