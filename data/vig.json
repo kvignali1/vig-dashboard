@@ -992,37 +992,43 @@
         "title": "VIG-PGA-001B Dual-Force Investment Decision System",
         "status": "PROPOSED",
         "date": "2026-11-23",
-        "detail": "Independent Opportunity and Resistance scores (0–6 each) with risks of acting and of not acting shown side by side."
+        "detail": "Independent Opportunity and Resistance scores (0–6 each) with risks of acting and of not acting shown side by side.",
+        "id": "IMP-001"
       },
       {
         "title": "VIG-PGA-001A Catalyst Opportunity Detection",
         "status": "PROPOSED",
         "date": "2026-11-23",
-        "detail": "Formal catalyst detection, currently run informally through Logan."
+        "detail": "Formal catalyst detection, currently run informally through Logan.",
+        "id": "IMP-002"
       },
       {
         "title": "Hybrid analyst activation",
         "status": "AWAITING CEO (Gate A)",
         "date": "2026-11-01",
-        "detail": "Targeted routine reviews; full-domain relevance check for material thesis changes or proposed trades. Time-limited shadow test only."
+        "detail": "Targeted routine reviews; full-domain relevance check for material thesis changes or proposed trades. Time-limited shadow test only.",
+        "id": "IMP-003"
       },
       {
         "title": "Numeric case IDs for NVDA, DLTR and A",
         "status": "AWAITING CEO",
         "date": "2026-11-27",
-        "detail": "Currently ticker-based identifiers."
+        "detail": "Currently ticker-based identifiers.",
+        "id": "IMP-004"
       },
       {
         "title": "Single decision vocabulary",
         "status": "AWAITING CEO",
         "date": "2026-11-27",
-        "detail": "Manual allows Buy / Sell / Hold / Watch / More Evidence Required; records use compound dispositions."
+        "detail": "Manual allows Buy / Sell / Hold / Watch / More Evidence Required; records use compound dispositions.",
+        "id": "IMP-005"
       },
       {
         "title": "Drive ↔ vault sync rule",
         "status": "AWAITING CEO",
         "date": "2026-11-27",
-        "detail": "The GitHub vault stopped at Nov 5; Drive is authoritative. A sync rule would keep this dashboard and the vault current."
+        "detail": "The GitHub vault stopped at Nov 5; Drive is authoritative. A sync rule would keep this dashboard and the vault current.",
+        "id": "IMP-006"
       }
     ],
     "deferred": [

@@ -225,7 +225,7 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
     <a href="#opportunities" role="tab" data-tab="opportunities">New opportunities</a>
     <a href="#prices" role="tab" data-tab="prices">Stock prices</a>
     <a href="#engine" role="tab" data-tab="engine">Dual Decision Engine</a>
-    <a href="#demitri" role="tab" data-tab="demitri">Demitri</a>
+    <a href="#improvement" role="tab" data-tab="improvement">Firm Improvement</a>
   </nav>
 
   <main id="app"><p class="muted">Loading…</p></main>
@@ -349,7 +349,7 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
     return `<div class="decide"><div class="label" style="margin-top:0">Your decision</div><div class="dbtns">${btns}</div>${st}</div>`;
   }
   document.addEventListener('click', e => {
-    const a = e.target.closest('.dbtn'); if (!a) return;
+    const a = e.target.closest('.dbtn[data-rec]'); if (!a) return;
     try { localStorage.setItem('vig-decision:' + a.dataset.rec, JSON.stringify({ k: a.dataset.k, d: new Date().toISOString().slice(0, 10) })); } catch (err) {}
     const o = DATA.opportunities.find(x => x.record === a.dataset.rec);
     const block = a.closest('.decide');
@@ -497,16 +497,64 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
       </div>`;
   }
 
+  const IMP_DECISIONS = [
+    { key: 'APPROVE', label: 'Approve', cls: 'go', desc: 'Authorize this improvement as proposed, with its validation and rollback plan.' },
+    { key: 'DEFER', label: 'Defer', cls: '', desc: 'Not now; revisit at the next Monthly Improvement Review.' },
+    { key: 'REJECT', label: 'Reject', cls: 'no', desc: 'Do not pursue this improvement.' }
+  ];
+  function impUrl(t, dec) {
+    const cfg = DATA.meta.decisions || {};
+    const today = new Date().toISOString().slice(0, 10);
+    const title = `CEO decision: ${dec.key} ${t.id} (${t.title})`;
+    const body = [
+      '<!-- Recorded from the VIG dashboard (Firm Improvement). Edit the notes, then press "Create". -->',
+      '```vig-improvement-decision',
+      `decision: ${dec.key}`,
+      `id: ${t.id}`,
+      `title: ${t.title}`,
+      `date: ${today}`,
+      'source: dashboard',
+      '```',
+      '',
+      `**Decision:** ${dec.label}. ${dec.desc}`,
+      `**Status shown on dashboard:** ${t.status}`,
+      `**Proposal:** ${t.detail}`,
+      '',
+      '**CEO notes or conditions (optional):**',
+      '',
+      '',
+      '---',
+      'Governance decision only. This does not authorize any trade, allocation or execution.'
+    ].join('\n');
+    const enc = encodeURIComponent;
+    return `https://github.com/${cfg.repo}/issues/new?title=${enc(title)}&labels=${enc(cfg.label || '')}&body=${enc(body)}`;
+  }
+  function impDecisionBlock(t) {
+    if (!t.id || !(DATA.meta.decisions && DATA.meta.decisions.repo)) return '';
+    if (/^(APPROVED|DEFERRED|REJECTED)/i.test(t.status || '')) return '';
+    let sent = null; try { sent = JSON.parse(localStorage.getItem('vig-decision:' + t.id) || 'null'); } catch (e) {}
+    const btns = IMP_DECISIONS.map(dec => `<a class="dbtn ${dec.cls}${sent && sent.k === dec.key ? ' on' : ''}" href="${esc(impUrl(t, dec))}" target="_blank" rel="noopener" data-imp="${esc(t.id)}" data-k="${dec.key}" title="${esc(dec.desc)}">${esc(dec.label)}</a>`).join('');
+    const st = sent ? `<div class="dsent">You opened ${({APPROVE:'an <b>approve</b>',DEFER:'a <b>defer</b>',REJECT:'a <b>reject</b>'})[sent.k] || 'a'} decision on ${fmtDate(sent.d)}. It takes effect once the issue is submitted and the next VIG run records it.</div>` : '';
+    return `<div class="decide"><div class="label" style="margin-top:0">Your decision</div><div class="dbtns">${btns}</div>${st}</div>`;
+  }
+  document.addEventListener('click', e => {
+    const a = e.target.closest('.dbtn[data-imp]'); if (!a) return;
+    try { localStorage.setItem('vig-decision:' + a.dataset.imp, JSON.stringify({ k: a.dataset.k, d: new Date().toISOString().slice(0, 10) })); } catch (err) {}
+    const t = DATA.demitri.proposed.find(x => x.id === a.dataset.imp);
+    const block = a.closest('.decide');
+    if (t && block) setTimeout(() => { block.outerHTML = impDecisionBlock(t); }, 50);
+  });
+
   function renderDemitri() {
     const d = DATA.demitri;
     const tracked = d.tracked.map(t => `<tr><td><span class="prio">${esc(t.priority)}</span></td><td><b>${esc(t.title)}</b><div class="sub">${esc(t.detail)}</div></td><td>${pill(t.status)}</td><td class="muted">${esc(t.source)}</td></tr>`).join('');
-    const proposed = d.proposed.map(t => `<article class="card"><div class="card-head"><b>${esc(t.title)}</b></div><div class="meta">${pill(t.status)} · ${fmtDate(t.date)}</div><div class="summary">${esc(t.detail)}</div></article>`).join('');
+    const proposed = d.proposed.map(t => `<article class="card"><div class="card-head"><b>${esc(t.title)}</b></div><div class="meta">${pill(t.status)} · ${esc(t.id || '')} · ${fmtDate(t.date)}</div><div class="summary">${esc(t.detail)}</div>${impDecisionBlock(t)}</article>`).join('');
     const gates = d.gates.map(g => `<div class="gate"><span class="n ${esc(g.state)}">${g.n}</span><span>${esc(g.text)}<div class="sub">${g.state === 'met' ? 'Met' : g.state === 'in_progress' ? 'In progress' : 'Open'}</div></span></div>`).join('');
-    return `<h2>Demitri · Improvement</h2><p class="lede">${esc(d.summary)}</p>
+    return `<h2>Firm Improvement</h2><p class="lede">${esc(d.summary)}</p>
       <div class="stack">
         <div><div class="label" style="margin-bottom:6px">Tracked improvements</div>
           <div class="tablewrap"><table><thead><tr><th>Priority</th><th>Improvement</th><th>Status</th><th>Source</th></tr></thead><tbody>${tracked}</tbody></table></div></div>
-        <div><div class="label" style="margin-bottom:6px">Proposed improvements</div><div class="grid">${proposed}</div></div>
+        <div><div class="label" style="margin-bottom:6px">Proposed improvements</div><div class="note" style="margin-top:0">Approve, defer or reject each proposal. The button opens a prefilled issue in the private VIG vault; press Create there to record it. Approval authorizes Demitri's proposal as written, including its rollback plan. It never authorizes trades.</div><div class="grid">${proposed}</div></div>
         <div class="two">
           <div class="card"><h2>Gates before production scoring</h2>${gates}</div>
           <div class="card"><h2>Deferred</h2><ul class="watch">${d.deferred.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
@@ -515,9 +563,10 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
       </div>`;
   }
 
-  const renderers = { cases: renderCases, opportunities: renderOpps, prices: renderPrices, engine: renderEngine, demitri: renderDemitri };
+  const renderers = { cases: renderCases, opportunities: renderOpps, prices: renderPrices, engine: renderEngine, improvement: renderDemitri };
 
   function show(tab) {
+    if (tab === 'demitri') tab = 'improvement';
     if (!renderers[tab]) tab = 'cases';
     document.querySelectorAll('nav a').forEach(a => a.setAttribute('aria-selected', a.dataset.tab === tab ? 'true' : 'false'));
     if (!DATA) return;

@@ -61,3 +61,12 @@ context prompt about that stock (dashboard state, scores, thesis) to the
 clipboard and opens the private VIG Claude project (`meta.ask.url`), where it
 can be pasted. No API key or backend; only the project owner can open the
 project.
+
+## Firm Improvement decisions
+
+Each proposed improvement (`demitri.proposed`, ids `IMP-###`) has
+**Approve / Defer / Reject** buttons that open a prefilled `ceo-decision`
+issue in the vault with a `vig-improvement-decision` block (decision, id,
+title, date). Once a run records it, set that item's status to
+`APPROVED (CEO <date>)`, `DEFERRED (CEO <date>)` or `REJECTED (CEO <date>)`;
+decided items no longer show buttons.
