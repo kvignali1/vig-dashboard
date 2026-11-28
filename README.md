@@ -69,4 +69,7 @@ Each proposed improvement (`demitri.proposed`, ids `IMP-###`) has
 issue in the vault with a `vig-improvement-decision` block (decision, id,
 title, date). Once a run records it, set that item's status to
 `APPROVED (CEO <date>)`, `DEFERRED (CEO <date>)` or `REJECTED (CEO <date>)`;
-decided items no longer show buttons.
+decided items no longer show buttons. The **VIG Monthly Improvement Review**
+(1st of each month, 8 AM Pacific) applies these decisions, plans approved
+items with Demitri, comments on and closes the issues, and adds the month's
+new proposals here. The daily Discovery run skips them.
