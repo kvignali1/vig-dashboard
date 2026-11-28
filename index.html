@@ -136,6 +136,13 @@ td.num { font-variant-numeric: tabular-nums; }
 .dbtn.on { outline: 2px solid var(--accent); outline-offset: 2px; }
 .dbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .dsent { font-size: 12.5px; color: var(--text-2); margin-top: 8px; }
+.askrow { margin-top: 12px; }
+.askbtn { font: inherit; font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface-2); color: var(--text); cursor: pointer; }
+.askbtn:hover { border-color: var(--accent); }
+.askbtn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.askbtn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linejoin: round; }
+#toast { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%) translateY(20px); background: var(--text); color: var(--bg); padding: 10px 14px; border-radius: 10px; font-size: 13.5px; max-width: min(92vw, 520px); opacity: 0; pointer-events: none; transition: opacity .15s, transform .15s; z-index: 20; }
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 /* Division panels (Investment / Adversarial) */
 .divs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0 4px; }
 .dv { background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; padding: 12px; min-width: 0; }
@@ -294,6 +301,7 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
         <div class="label">Thesis</div><div class="summary" style="margin-top:2px">${esc(c.thesis_direction)}</div>
         <div class="label">Watching</div>
         <ul class="watch">${c.watch.map(w => `<li>${esc(w)}</li>`).join('')}</ul>
+        ${askBtn('case', c.ticker)}
       </article>`).join('');
     return `<h2>Case trackers</h2><p class="lede">Current suggestion for each tracked case. Suggestions only; nothing here is an order or a record of any holding.</p><div class="grid">${cards}</div>`;
   }
@@ -348,6 +356,47 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
     if (o && block) setTimeout(() => { block.outerHTML = decisionBlock(o); }, 50);
   });
 
+  function askBtn(kind, ticker) {
+    if (!(DATA.meta.ask && DATA.meta.ask.url)) return '';
+    return `<div class="askrow"><button type="button" class="askbtn" data-kind="${kind}" data-t="${esc(ticker)}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Ask VIG about ${esc(ticker)}</button></div>`;
+  }
+  function askPrompt(kind, t) {
+    const r = (DATA.engine.ratings || []).find(x => x.ticker === t) || {};
+    const sc = r.o == null ? 'Dual Decision Engine: pending.' : `SHADOW O ${r.o}/6${r.o_unknown ? ` (+${r.o_unknown} unknown)` : ''}, R ${r.r}/6${r.r_unknown ? ` (+${r.r_unknown} unknown)` : ''}${r.complete ? '' : ', INCOMPLETE'} as of ${r.as_of || 'n/a'}.`;
+    if (kind === 'case') {
+      const c = DATA.cases.find(x => x.ticker === t);
+      return [`VIG question about tracked case ${c.ticker} (${c.name}${c.id ? ', Case #' + c.id : ''}).`,
+        `Dashboard state as of ${DATA.meta.as_of}: suggestion ${c.suggestion}. ${c.suggestion_detail}`,
+        `Summary: ${c.summary}`, `Thesis: ${c.thesis_direction}. Watching: ${c.watch.join('; ')}.`, sc, '',
+        'My question: ', '',
+        '(Use the latest Case State in Drive as the authoritative record. Advisory only, no trades.)'].join('\n');
+    }
+    const o = DATA.opportunities.find(x => x.ticker === t);
+    return [`VIG question about new opportunity ${o.ticker} (${o.name}, ${o.exchange}), discovery record ${o.record}.`,
+      `Dashboard state as of ${DATA.meta.as_of}: status ${o.status}. VIG proposal: ${o.proposed}`,
+      `Thesis: ${o.thesis}`, `Bull: ${o.bull}. Bear: ${o.bear}.`, o.levels ? `Levels: ${o.levels}` : '', sc, '',
+      'My question: ', '',
+      '(Use the Opportunity Discovery Ledger in Drive as the authoritative record. Advisory only, no trades.)'].filter(x => x !== null).join('\n');
+  }
+  function toast(msg) {
+    let el = document.getElementById('toast');
+    if (!el) { el = document.createElement('div'); el.id = 'toast'; el.setAttribute('role', 'status'); document.body.appendChild(el); }
+    el.textContent = msg; el.classList.add('show');
+    clearTimeout(toast._t); toast._t = setTimeout(() => el.classList.remove('show'), 5000);
+  }
+  async function copyText(txt) {
+    try { await navigator.clipboard.writeText(txt); return true; } catch (e) {}
+    try { const ta = document.createElement('textarea'); ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); const ok = document.execCommand('copy'); ta.remove(); return ok; } catch (e) { return false; }
+  }
+  document.addEventListener('click', async e => {
+    const b = e.target.closest('.askbtn'); if (!b) return;
+    const win = window.open(DATA.meta.ask.url, '_blank');
+    if (win) { try { win.opener = null; } catch (err) {} }
+    const ok = await copyText(askPrompt(b.dataset.kind, b.dataset.t));
+    toast(ok ? `Question about ${b.dataset.t} copied. Paste it into the VIG project chat and add your question.` : 'Could not copy automatically. The VIG project is open; describe the stock there.');
+    if (!win) location.href = DATA.meta.ask.url;
+  });
+
   function renderOpps() {
     const cards = DATA.opportunities.map(o => `
       <article class="card">
@@ -362,6 +411,7 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
         ${o.bull || o.bear ? `<div class="bb"><div><b>Bull</b>${esc(o.bull)}</div><div><b>Bear</b>${esc(o.bear)}</div></div>` : ''}
         ${o.levels ? `<div class="levels">${esc(o.levels)}</div>` : ''}
         ${decisionBlock(o)}
+        ${o.thesis ? askBtn('opp', o.ticker) : ''}
       </article>`).join('');
     return `<h2>New opportunities</h2><p class="lede">Candidates from the daily Opportunity Discovery Ledger. Discovery is research, not an entry signal; the CEO decides every promotion.</p>
       <div class="note" style="margin-top:-6px">Decision buttons open a prefilled issue in the private VIG vault. Submit it there to record your decision; it only works when you're signed in to GitHub with access to the vault.</div>

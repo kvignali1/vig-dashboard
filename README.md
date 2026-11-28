@@ -53,3 +53,11 @@ first: it reads open `ceo-decision` issues authored by `kvignali1` only.
 
 The run then comments on and closes each issue, and adds the day's new
 candidates to `opportunities`.
+
+## Ask VIG
+
+Every case and opportunity card has an **Ask VIG** button. It copies a
+context prompt about that stock (dashboard state, scores, thesis) to the
+clipboard and opens the private VIG Claude project (`meta.ask.url`), where it
+can be pasted. No API key or backend; only the project owner can open the
+project.

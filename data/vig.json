@@ -9,6 +9,10 @@
       "repo": "kvignali1/vig-obsidian-vault",
       "label": "ceo-decision",
       "note": "Decision buttons open a prefilled issue in the private vault. Only people with access to that repo can submit; scheduled runs should honor only issues opened by the CEO."
+    },
+    "ask": {
+      "url": "https://claude.ai/code/project/chan_01LG4eyvQZtexwvyxKRFuqnk",
+      "note": "Ask VIG copies a context prompt and opens the private VIG Claude project. Only the project owner can open it."
     }
   },
   "cases": [
