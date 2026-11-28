@@ -243,7 +243,9 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
   const pillClass = (s) => {
     const u = (s || '').toUpperCase();
     if (u.startsWith('HOLD')) return 'hold';
-    if (u.includes('MONITOR') || u.includes('AWAITING')) return 'monitor';
+    if (u.includes('PASS') || u.includes('REJECT')) return 'pending';
+    if (u.includes('MONITOR') || u.includes('AWAITING CEO')) return 'monitor';
+    if (u.includes('ENTRY')) return 'watch';
     if (u.includes('WATCH') || u.includes('PROMOTED')) return 'watch';
     return 'pending';
   };

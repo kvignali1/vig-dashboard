@@ -42,6 +42,14 @@ Each issue carries a machine-readable block:
     source: dashboard
     ```
 
-A VIG run applying decisions should read open `ceo-decision` issues authored
-by `kvignali1` only, update the ledger, case state and `data/vig.json`, then
-comment and close the issue.
+The daily **VIG New Opportunity Discovery** run (8 AM Pacific) applies them
+first: it reads open `ceo-decision` issues authored by `kvignali1` only.
+
+- **TRACK**: classified as `AWAITING ENTRY` (concrete entry conditions exist)
+  or `MONITOR / MORE EVIDENCE REQUIRED`, recorded in a new Drive Case State,
+  moved from `opportunities` to `cases` here.
+- **WATCH**: status becomes `WATCHLIST (CEO <date>)`.
+- **PASS**: removed from `opportunities`.
+
+The run then comments on and closes each issue, and adds the day's new
+candidates to `opportunities`.
