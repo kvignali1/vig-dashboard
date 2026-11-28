@@ -1,7 +1,7 @@
 {
   "meta": {
     "schema_version": 1,
-    "as_of": "2026-11-27",
+    "as_of": "2026-11-28",
     "generated_by": "Manual first version, compiled from VIG Case State (Nov 25), Opportunity Discovery Ledger VIG-OD-001 (Nov 27), VIG-PGA-001/001A/001B (Nov 23), 11-1 Monthly Improvement Report and the Obsidian vault. Nov 27 evening: shadow-pilot Dual Decision Engine re-score of all nine cases from public sources (issuer releases, SEC filings, dated quotes).",
     "disclaimer": "Advisory research only. Nothing here is a recommendation to buy or sell, an order, or a record of any holding. The CEO alone makes and executes every decision.",
     "public_safe": "This file is published on a public page. It must never contain account names, holdings, position sizes, capital amounts or balances.",
@@ -147,6 +147,36 @@
   ],
   "opportunities": [
     {
+      "record": "VIG-OD-20261128-001",
+      "ticker": "NVT",
+      "exchange": "NYSE",
+      "name": "nVent Electric",
+      "lane": "Long-term / tactical secondary",
+      "first_seen": "2026-11-28",
+      "status": "AWAITING CEO DECISION",
+      "proposed": "PROMOTE FOR CEO REVIEW: approve as research case only, no entry",
+      "thesis": "Data-center enclosures, liquid cooling and power distribution. Q3 organic sales +44% and FY26 adjusted EPS guidance raised to $5.36–5.39, yet the stock is about 42% below its 52-week high at roughly 20x FY26 EPS.",
+      "bull": "Data-center and grid demand sustains 20%+ organic growth into 2027; multiple re-rates as orders reaccelerate",
+      "bear": "Orders growing only low double digits (reported) against 44% sales growth; Q4 organic guide steps down to 26–29%; tariffs and Maverick dilution pressure margins",
+      "levels": "Nov 27 close $107.47. 52-week low $93.22 is the invalidation reference; a reclaim and hold of about $127–128 (Oct 22 gap-down close) on normal volume would be a first structure signal. Observation only, not an entry plan.",
+      "next": "2026-12-05"
+    },
+    {
+      "record": "VIG-OD-20261128-002",
+      "ticker": "DKS",
+      "exchange": "NYSE",
+      "name": "DICK'S Sporting Goods",
+      "lane": "Tactical",
+      "first_seen": "2026-11-28",
+      "status": "AWAITING CEO DECISION",
+      "proposed": "WATCH only; no CEO action needed now",
+      "thesis": "Q3 beat with FY26 non-GAAP EPS guidance raised to $11.45–12.30 and Foot Locker losses narrowing, after the August guidance cut. Roughly 13–14x raised guidance with heavy buybacks.",
+      "bull": "Foot Locker turnaround plus buybacks drive a trough-to-recovery re-rating",
+      "bear": "Non-GAAP EPS down 6%, cash down 43%, about $1B of new notes funding buybacks, Foot Locker still loss-making",
+      "levels": "UNVERIFIED. Nov 27 quote data conflicts (158.59 vs 164.60); needs clean daily history. First check: hold above the Nov 27 day low of $157.00 (single intraday source).",
+      "next": "2026-12-04"
+    },
+    {
       "record": "VIG-OD-20261127-001",
       "ticker": "CAH",
       "exchange": "NYSE",
@@ -168,7 +198,7 @@
       "name": "Wesco International",
       "lane": "Long-term / tactical secondary",
       "first_seen": "2026-11-23",
-      "status": "ENTRY WATCHLIST",
+      "status": "WATCHLIST (CEO 2026-11-28)",
       "proposed": "Watch only. Not an entry order",
       "thesis": "Electrical, data-center, utility and broadband distributor. Q3 sales $7.2B (+17%), data center $1.8B (~+55%), backlog ~+80%, guidance raised.",
       "bull": "Confirmed backlog, broadening demand, free cash flow",
@@ -278,6 +308,12 @@
         "price": 178.68,
         "as_of": "2026-11-27 12:59 PM ET (half-day session)",
         "source": "chartexchange.com"
+      },
+      {
+        "ticker": "NVT",
+        "price": 107.47,
+        "as_of": "2026-11-27 official close (half-day session)",
+        "source": "financialcontent.com"
       }
     ],
     "symbols": {
@@ -289,7 +325,8 @@
       "CAH": "NYSE:CAH",
       "WCC": "NYSE:WCC",
       "ORA": "NYSE:ORA",
-      "IESC": "NASDAQ:IESC"
+      "IESC": "NASDAQ:IESC",
+      "NVT": "NYSE:NVT"
     }
   },
   "engine": {
@@ -911,6 +948,138 @@
         "two_sided": "Risk of acting: buying a volatile rebound. Risk of waiting: missing a re-rating.",
         "action": "RESEARCH / TACTICAL WATCH. Not promoted.",
         "price_used": "$178.68 (Nov 27, 12:59 PM ET)"
+      },
+      {
+        "ticker": "NVT",
+        "o": 3,
+        "o_unknown": 2,
+        "r": 3,
+        "r_unknown": 1,
+        "complete": false,
+        "as_of": "2026-11-28",
+        "note": "Shadow-pilot score, not Annex A. Formally INCOMPLETE.",
+        "o_categories": [
+          {
+            "v": 1,
+            "e": "Q3 organic sales +44%; FY26 guidance raised twice."
+          },
+          {
+            "v": 1,
+            "e": "Data-center power distribution via Maverick (closed Oct 1); liquid cooling demand."
+          },
+          {
+            "v": null,
+            "e": "New products ~30 pts of growth, but moat and share not verified."
+          },
+          {
+            "v": 1,
+            "e": "About 20x FY26 adjusted EPS midpoint after ~42% drawdown from 52-week high."
+          },
+          {
+            "v": 0,
+            "e": "Q4 deceleration guided; orders lag sales (reported); price trend down."
+          },
+          {
+            "v": null,
+            "e": "Large-cap liquidity, but no confirmed base; holiday volume unrepresentative."
+          }
+        ],
+        "r_categories": [
+          {
+            "v": 0,
+            "e": "FCF positive; net debt about $1.05B; reported leverage 2–2.5x."
+          },
+          {
+            "v": 1,
+            "e": "Supplier capacity constraints, Maverick integration, new Arizona plant."
+          },
+          {
+            "v": 0,
+            "e": "Multiple compressed materially."
+          },
+          {
+            "v": 1,
+            "e": "52-week range $93–185; -12.6% session Oct 22."
+          },
+          {
+            "v": null,
+            "e": "Tariff exposure (~$105M reported); governance not reviewed."
+          },
+          {
+            "v": 1,
+            "e": "Orders growth far below sales growth; capex durability debated."
+          }
+        ],
+        "catalyst": "Confirmed: Q3 beat and raised FY26 guidance (Oct 30). Next: Q4 report and FY27 guide, date unverified.",
+        "two_sided": "Risk of acting: buying before orders stabilize. Risk of waiting: missing a re-rating if the slowdown is shallower than priced.",
+        "action": "PROMOTE FOR CEO REVIEW (research case, no entry).",
+        "price_used": "$107.47 (Nov 27 official close, half-day session)"
+      },
+      {
+        "ticker": "DKS",
+        "o": 3,
+        "o_unknown": 2,
+        "r": 4,
+        "r_unknown": 1,
+        "complete": false,
+        "as_of": "2026-11-28",
+        "note": "Shadow-pilot score, not Annex A. Formally INCOMPLETE.",
+        "o_categories": [
+          {
+            "v": 0,
+            "e": "DICK'S comp slowed to +2.6%; non-GAAP EPS -6%."
+          },
+          {
+            "v": 1,
+            "e": "Foot Locker adds ~$7.4B of sales; US Foot Locker comps up over 4% (CEO)."
+          },
+          {
+            "v": null,
+            "e": "Category leader; brand allocation dependence not assessed."
+          },
+          {
+            "v": 1,
+            "e": "About 13–14x raised FY26 guidance; ~33–35% below 52-week high."
+          },
+          {
+            "v": 1,
+            "e": "Guidance raised; $903M Q3 buyback."
+          },
+          {
+            "v": null,
+            "e": "Quotes conflict; post-earnings structure unverified."
+          }
+        ],
+        "r_categories": [
+          {
+            "v": 1,
+            "e": "Cash down 43%; ~$1B new notes; inventory +9%."
+          },
+          {
+            "v": 1,
+            "e": "Foot Locker loss-making; up to $750M charges; 75 closures."
+          },
+          {
+            "v": 0,
+            "e": "Multiple undemanding."
+          },
+          {
+            "v": 1,
+            "e": "-29% day on Aug 25; 52-week range $120–244."
+          },
+          {
+            "v": null,
+            "e": "Tariff exposure not quantified."
+          },
+          {
+            "v": 1,
+            "e": "Reaction and price structure unverified; turnaround unproven."
+          }
+        ],
+        "catalyst": "Confirmed: Q3 beat and raised FY26 EPS guidance (Nov 24). Ex-dividend Dec 11.",
+        "two_sided": "Risk of acting: chasing without verified support. Risk of waiting: missing a trough recovery.",
+        "action": "WATCH (tactical). Not promoted.",
+        "price_used": "UNVERIFIED (Nov 27 quote labels conflict: 158.59 / 164.60)"
       }
     ]
   },
