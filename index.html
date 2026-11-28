@@ -548,7 +548,7 @@ footer { margin-top: 32px; font-size: 12px; color: var(--text-3); }
   function renderDemitri() {
     const d = DATA.demitri;
     const tracked = d.tracked.map(t => `<tr><td><span class="prio">${esc(t.priority)}</span></td><td><b>${esc(t.title)}</b><div class="sub">${esc(t.detail)}</div></td><td>${pill(t.status)}</td><td class="muted">${esc(t.source)}</td></tr>`).join('');
-    const proposed = d.proposed.map(t => `<article class="card"><div class="card-head"><b>${esc(t.title)}</b></div><div class="meta">${pill(t.status)} · ${esc(t.id || '')} · ${fmtDate(t.date)}</div><div class="summary">${esc(t.detail)}</div>${impDecisionBlock(t)}</article>`).join('');
+    const proposed = d.proposed.map(t => `<article class="card"><div class="card-head"><b>${esc(t.title)}</b></div><div class="meta">${pill(t.status)} · ${esc(t.id || '')}${t.category ? ' · ' + esc(t.category) : ''} · ${fmtDate(t.date)}</div><div class="summary">${esc(t.detail)}</div>${impDecisionBlock(t)}</article>`).join('');
     const gates = d.gates.map(g => `<div class="gate"><span class="n ${esc(g.state)}">${g.n}</span><span>${esc(g.text)}<div class="sub">${g.state === 'met' ? 'Met' : g.state === 'in_progress' ? 'In progress' : 'Open'}</div></span></div>`).join('');
     return `<h2>Firm Improvement</h2><p class="lede">${esc(d.summary)}</p>
       <div class="stack">

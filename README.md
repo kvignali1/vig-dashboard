@@ -42,7 +42,7 @@ Each issue carries a machine-readable block:
     source: dashboard
     ```
 
-The daily **VIG New Opportunity Discovery** run (8 AM Pacific) applies them
+The daily **VIG Daily Discovery + Dashboard Decisions** run (8 AM Pacific) applies them
 first: it reads open `ceo-decision` issues authored by `kvignali1` only.
 
 - **TRACK**: classified as `AWAITING ENTRY` (concrete entry conditions exist)
@@ -69,7 +69,8 @@ Each proposed improvement (`demitri.proposed`, ids `IMP-###`) has
 issue in the vault with a `vig-improvement-decision` block (decision, id,
 title, date). Once a run records it, set that item's status to
 `APPROVED (CEO <date>)`, `DEFERRED (CEO <date>)` or `REJECTED (CEO <date>)`;
-decided items no longer show buttons. The **VIG Monthly Improvement Review**
+decided items no longer show buttons. The **VIG Monthly Firm Improvement & Growth Review**
 (1st of each month, 8 AM Pacific) applies these decisions, plans approved
 items with Demitri, comments on and closes the issues, and adds the month's
-new proposals here. The daily Discovery run skips them.
+new proposals here, tagged `category` "Operational fix" or "Growth
+proposition". The daily Discovery run skips them.
